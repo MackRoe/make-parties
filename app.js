@@ -2,9 +2,19 @@
 const express = require('express')
 const app = express()
 
-// Tell our app to send the "hello world" message to our home page
+// require handlebars
+const exphbs = require('express-handlebars');
+const Handlebars = require('handlebars')
+const {allowInsecurePrototypeAccess} = require('@handlebars/allow-prototype-access')
+
+// Use "main" as our default layout
+app.engine('handlebars', exphbs({ defaultLayout: 'main', handlebars: allowInsecurePrototypeAccess(Handlebars) }));
+// Use handlebars to render
+app.set('view engine', 'handlebars');
+
+// Render the "home" layout for the main page and send the following msg
 app.get('/', (req, res) => {
-  res.send('Hello World!')
+  res.render('home', { msg: 'Handlebars are Cool!' });
 })
 
 // Choose a port to listen on
